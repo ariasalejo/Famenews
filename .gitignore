@@ -1,0 +1,17 @@
+# Node modules (por si usas npm en el futuro)
+node_modules/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Archivos temporales
+*.log
+*.tmp
+
+# Carpetas de compilación (si usas algún preprocesador)
+dist/
+build/
+
+# Archivos de entorno (por si usas alguna variable API privada)
+.env
