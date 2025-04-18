@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noticias Virales | GNews API</title>
+    <style>
+        /* Estilos generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Helvetica', Arial, sans-serif;
+        }
+        body {
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        /* Header */
+        header {
+            background: #000;
+            color: white;
+            padding: 15px 0;
+            margin-bottom: 30px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .logo span {
+            color: #ff0000;
+        }
+
+        /* Loader */
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #ff0000;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 30px auto;
+            display: none;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Noticia Destacada */
+        .featured-news {
+            background: white;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        .featured-news:hover {
+            transform: translateY(-5px);
+        }
+        .featured-img {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+        .featured-content {
+            padding: 25px;
+        }
+        .featured-tag {
+            background: #ff0000;
+            color: white;
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        .featured-title {
+            font-size: 32px;
+            margin-bottom: 15px;
+            line-height: 1.3;
+        }
+        .featured-excerpt {
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 15px;
+        }
+        .featured-meta {
+            color: #777;
+            font-size: 14px;
+        }
+
+        /* Noticias Secundarias */
+        .secondary-news {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        .secondary-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .secondary-card:hover {
+            transform: translateY(-3px);
+        }
+        .secondary-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+        .secondary-content {
+            padding: 15px;
+        }
+        .secondary-tag {
+            color: #ff0000;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .secondary-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        .secondary-meta {
+            color: #777;
+            font-size: 12px;
+        }
+
+        /* Noticias Terciarias */
+        .tertiary-news {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+        .tertiary-card {
+            background: white;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .tertiary-card:hover {
+            transform: translateY(-2px);
+        }
+        .tertiary-img {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+        }
+        .tertiary-content {
+            padding: 10px;
+        }
+        .tertiary-title {
+            font-size: 14px;
+            margin-bottom: 5px;
+            line-height: 1.3;
+        }
+        .tertiary-meta {
+            color: #777;
+            font-size: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .secondary-news {
+                grid-template-columns: 1fr;
+            }
+            .tertiary-news {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .featured-title {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">NEWS<span>VIRAL</span></div>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- Loader -->
+        <div class="loader" id="loader"></div>
+
+        <!-- Noticias Dinámicas desde GNews API -->
+        <div id="news-container">
+            <!-- Contenido se insertará aquí via JavaScript -->
+        </div>
+    </main>
+
+    <script>
+        // Configuración API GNews (usa tu API Key)
+        const API_KEY = '7029e04c1d06f0215fd37aaa9a588654';
+        const API_URL = `https://gnews.io/api/v4/top-headlines?token=${API_KEY}&lang=es&max=10`;
+
+        // Elementos DOM
+        const loader = document.getElementById('loader');
+        const newsContainer = document.getElementById('news-container');
+
+        // Fetch Noticias
+        async function fetchNews() {
+            loader.style.display = 'block';
+            newsContainer.innerHTML = '';
+            
+            try {
+                const response = await fetch(API_URL);
+                const data = await response.json();
+                
+                if (data.articles && data.articles.length > 0) {
+                    renderNews(data.articles);
+                } else {
+                    newsContainer.innerHTML = '<p>No se encontraron noticias. Intenta más tarde.</p>';
+                }
+            } catch (error) {
+                console.error('Error fetching news:', error);
+                newsContainer.innerHTML = '<p>Error al cargar noticias. Revisa la consola.</p>';
+            } finally {
+                loader.style.display = 'none';
+            }
+        }
+
+        // Renderizar Noticias
+        function renderNews(articles) {
+            // Noticia Destacada (primera del array)
+            const featured = articles[0];
+            newsContainer.innerHTML += `
+                <article class="featured-news">
+                    <img src="${featured.image || 'https://via.placeholder.com/1200x400'}" alt="${featured.title}" class="featured-img">
+                    <div class="featured-content">
+                        <span class="featured-tag">DESTACADA</span>
+                        <h1 class="featured-title">${featured.title}</h1>
+                        <p class="featured-excerpt">${featured.description || 'Descripción no disponible.'}</p>
+                        <p class="featured-meta">${formatDate(featured.publishedAt)} | Fuente: ${featured.source.name}</p>
+                    </div>
+                </article>
+            `;
+
+            // Noticias Secundarias (siguientes 3)
+            let secondaryHTML = '<div class="secondary-news">';
+            for (let i = 1; i <= 3 && i < articles.length; i++) {
+                const article = articles[i];
+                secondaryHTML += `
+                    <article class="secondary-card">
+                        <img src="${article.image || 'https://via.placeholder.com/400x180'}" alt="${article.title}" class="secondary-img">
+                        <div class="secondary-content">
+                            <span class="secondary-tag">${article.source.name}</span>
+                            <h2 class="secondary-title">${article.title}</h2>
+                            <p class="secondary-meta">${formatDate(article.publishedAt)}</p>
+                        </div>
+                    </article>
+                `;
+            }
+            secondaryHTML += '</div>';
+            newsContainer.innerHTML += secondaryHTML;
+
+            // Noticias Terciarias (restantes)
+            let tertiaryHTML = '<div class="tertiary-news">';
+            for (let i = 4; i < articles.length; i++) {
+                const article = articles[i];
+                tertiaryHTML += `
+                    <article class="tertiary-card">
+                        <img src="${article.image || 'https://via.placeholder.com/300x100'}" alt="${article.title}" class="tertiary-img">
+                        <div class="tertiary-content">
+                            <h3 class="tertiary-title">${truncateTitle(article.title, 60)}</h3>
+                            <p class="tertiary-meta">${formatDate(article.publishedAt)}</p>
+                        </div>
+                    </article>
+                `;
+            }
+            tertiaryHTML += '</div>';
+            newsContainer.innerHTML += tertiaryHTML;
+        }
+
+        // Helper: Formatear fecha
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('es-ES', options);
+        }
+
+        // Helper: Acortar títulos
+        function truncateTitle(title, maxLength) {
+            return title.length > maxLength ? title.substring(0, maxLength) + '...' : title;
+        }
+
+        // Iniciar
+        document.addEventListener('DOMContentLoaded', fetchNews);
+    </script>
+</body>
+</html>
