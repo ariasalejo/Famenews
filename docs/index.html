@@ -1,69 +1,105 @@
-<!DOCTYPE html><html lang="es">
+<!DOCTYPE html>
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4580331939704676"
+     crossorigin="anonymous"></script>
+  <meta name="google-adsense-account" content="ca-pub-4580331939704676">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Famenews | Noticias Virales</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
   <style>
-    /* Estilos generales */
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica Neue', Arial, sans-serif; }
     body { background: #f8f9fa; color: #333; line-height: 1.6; }
     .container { width: 90%; max-width: 1200px; margin: 0 auto; padding: 20px 0; }
-    /* Header */
-    header { background: #000; color: #fff; position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-    .header-content { display: flex; flex-direction: column; align-items: center; padding: 15px 0; }
-    .logo { font-size: 32px; font-weight: 900; text-transform: uppercase; background: linear-gradient(90deg,#ff0000 50%,#fff 50%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .categories-nav { display: flex; gap: 20px; margin-top: 10px; justify-content: center; flex-wrap: wrap; overflow-x: auto; padding-bottom: 10px; }
-    .category-item { color: #fff; text-decoration: none; font-weight: 600; text-transform: uppercase; font-size: 14px; position: relative; padding: 5px 0; transition: color 0.3s; white-space: nowrap; }
-    .category-item::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 2px; background: #ff0000; transition: width 0.3s; }
+
+    header {
+      background: #000;
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .header-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 15px 0;
+    }
+
+    .logo {
+      font-size: 32px;
+      font-weight: 900;
+      text-transform: uppercase;
+      background: linear-gradient(90deg, #ff0000 50%, #fff 50%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .categories-nav {
+      display: flex;
+      gap: 20px;
+      margin-top: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      overflow-x: auto;
+      padding-bottom: 10px;
+    }
+
+    .category-item {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 14px;
+      position: relative;
+      padding: 5px 0;
+      transition: color 0.3s;
+      white-space: nowrap;
+    }
+
+    .category-item::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #ff0000;
+      transition: width 0.3s;
+    }
+
     .category-item:hover::after, .category-item.active::after { width: 100%; }
     .category-item:hover, .category-item.active { color: #ff0000; }
-    /* Loader */
-    .loader { border: 5px solid #f3f3f3; border-top: 5px solid #ff0000; border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; margin: 30px auto; display: none; }
-    @keyframes spin { 0% { transform: rotate(0deg);} 100% { transform: rotate(360deg);} }
-    /* Destacada */
-    .featured-news { background: #fff; margin-bottom: 30px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden; transition: transform 0.3s; }
-    .featured-news:hover { transform: translateY(-5px); }
-    .featured-img { width: 100%; height: 400px; object-fit: cover; }
-    .featured-content { padding: 25px; }
-    .featured-tag { background: #ff0000; color: #fff; display: inline-block; padding: 5px 10px; border-radius: 5px; font-size: 14px; margin-bottom: 10px; }
-    .featured-title { font-size: 32px; margin-bottom: 15px; line-height: 1.3; }
-    .featured-excerpt { font-size: 18px; color: #555; margin-bottom: 15px; }
-    .featured-meta { color: #777; font-size: 14px; }
-    /* Secundarias */
-    .secondary-news { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-bottom: 30px; }
-    .secondary-card { background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 3px 10px rgba(0,0,0,0.1); transition: transform 0.3s; }
-    .secondary-card:hover { transform: translateY(-3px); }
-    .secondary-img { width: 100%; height: 180px; object-fit: cover; }
-    .secondary-content { padding: 15px; }
-    .secondary-tag { color: #ff0000; font-size: 12px; font-weight: bold; margin-bottom: 8px; }
-    .secondary-title { font-size: 18px; margin-bottom: 10px; line-height: 1.4; }
-    .secondary-meta { color: #777; font-size: 12px; }
-    /* Terciarias */
-    .tertiary-news { display: grid; grid-template-columns: repeat(4,1fr); gap: 15px; }
-    .tertiary-card { background: #fff; border-radius: 5px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.1); transition: transform 0.3s; }
-    .tertiary-card:hover { transform: translateY(-2px); }
-    .tertiary-img { width: 100%; height: 100px; object-fit: cover; }
-    .tertiary-content { padding: 10px; }
-    .tertiary-title { font-size: 14px; margin-bottom: 5px; line-height: 1.3; }
-    .tertiary-meta { color: #777; font-size: 10px; }
-    /* Footer */
-    .famenews-footer { background: #1a1a1a; color: #fff; padding: 50px 0 30px; margin-top: 50px; border-top: 3px solid #ff0000; }
-    .footer-container { display: grid; grid-template-columns: repeat(4,1fr); gap: 30px; padding-bottom: 40px; border-bottom: 1px solid #333; }
-    .footer-section h4 { color: #ff0000; margin-bottom: 20px; font-size: 18px; text-transform: uppercase; }
-    .footer-links { list-style: none; }
-    .footer-links li { margin-bottom: 12px; }
-    .footer-links a { color: #ccc; text-decoration: none; transition: color 0.3s; }
-    .footer-links a:hover { color: #fff; }
-    .social-links { display: flex; gap: 15px; margin-top: 20px; }
-    .social-links a { color: #fff; font-size: 24px; transition: color 0.3s; }
-    .social-links a:hover { color: #ff0000; }
-    .footer-bottom { text-align: center; color: #999; font-size: 14px; margin-top: 30px; }
-    .footer-brand { display: flex; flex-direction: column; align-items: center; gap: 15px; margin-bottom: 30px; }
-    .footer-logo { font-size: 28px; font-weight: 900; background: linear-gradient(90deg,#ff0000 50%,#fff 50%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    @media (max-width: 992px) { .footer-container { grid-template-columns: repeat(2,1fr);} }
-    @media (max-width: 768px) { .categories-nav { gap: 15px;} .secondary-news { grid-template-columns: 1fr;} .tertiary-news { grid-template-columns: repeat(2,1fr);} .featured-title { font-size: 24px;} }
-    @media (max-width: 576px) { .footer-container { grid-template-columns: 1fr;} .tertiary-news { grid-template-columns: 1fr;} }
+
+    .loader {
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #ff0000;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 30px auto;
+      display: none;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 768px) {
+      .categories-nav { gap: 15px; }
+      .secondary-news { grid-template-columns: 1fr; }
+      .tertiary-news { grid-template-columns: repeat(2, 1fr); }
+      .featured-title { font-size: 24px; }
+    }
+
+    @media (max-width: 576px) {
+      .tertiary-news { grid-template-columns: 1fr; }
+    }
   </style>
 </head>
 <body>
@@ -77,117 +113,93 @@
         <a href="#" class="category-item" data-category="entertainment">Entretenimiento</a>
         <a href="#" class="category-item" data-category="health">Salud</a>
         <a href="#" class="category-item" data-category="science">Ciencia</a>
-        <a href="#" class="category-item" data-category="crypto">Criptomonedas</a>
+        <a href="#" class="category-item" data-category="cryptocurrency">Criptomonedas</a>
       </nav>
     </div>
   </header>
+
   <main class="container">
     <div class="loader" id="loader"></div>
     <div id="news-container"></div>
   </main>
-  <footer class="famenews-footer">
-    <div class="container">
-      <div class="footer-brand">
-        <div class="footer-logo">Famenews</div>
-        <p>Información viral que realmente importa</p>
-      </div>
-      <div class="footer-container">
-        <!-- Sobre nosotros -->
-        <div class="footer-section">
-          <h4>Sobre nosotros</h4>
-          <ul class="footer-links">
-            <li><a href="#">Quiénes somos</a></li>
-            <li><a href="#">Nuestro equipo</a></li>
-            <li><a href="#">Carreras</a></li>
-            <li><a href="#">Contacto</a></li>
-          </ul>
-        </div>
-        <!-- Legal -->
-        <div class="footer-section">
-          <h4>Legal</h4>
-          <ul class="footer-links">
-            <li><a href="#">Términos de uso</a></li>
-            <li><a href="#">Privacidad</a></li>
-            <li><a href="#">Política de cookies</a></li>
-            <li><a href="#">Accesibilidad</a></li>
-          </ul>
-        </div>
-        <!-- Recursos -->
-        <div class="footer-section">
-          <h4>Recursos</h4>
-          <ul class="footer-links">
-            <li><a href="#">Archivo</a></li>
-            <li><a href="#">Newsletter</a></li>
-            <li><a href="#">Aplicaciones</a></li>
-            <li><a href="#">API</a></li>
-          </ul>
-        </div>
-        <!-- Síguenos -->
-        <div class="footer-section">
-          <h4>Síguenos</h4>
-          <div class="social-links">
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-facebook"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-            <a href="#"><i class="fab fa-youtube"></i></a>
-            <a href="#"><i class="fab fa-tiktok"></i></a>
-          </div>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>© 2024 Famenews. Todos los derechos reservados.</p>
-        <p>Noticias proporcionadas por GNews API y fuentes propias</p>
-      </div>
+
+  <!-- Sección de Donaciones -->
+  <section class="donaciones" style="background: linear-gradient(90deg, #0f0c29, #302b63, #24243e); color:#fff; padding: 40px 20px; text-align:center; border-top: 2px solid #00ffff;">
+    <h2 style="font-size: 2rem; margin-bottom: 15px;">¿Te gusta Famenews?</h2>
+    <p style="font-size: 1.1rem; margin-bottom: 10px;">Apóyanos para seguir compartiendo noticias relevantes y virales.</p>
+    <p style="font-size: 1rem; margin-bottom: 10px;">Puedes donar usando criptomonedas:</p>
+    <div style="font-family: monospace; font-size: 0.95rem; line-height: 1.5;">
+      <p><strong>BTC:</strong> bc1qej3examplebtcaddresshere</p>
+      <p><strong>ETH:</strong> 0xAbC123exampleethaddress</p>
+      <p><strong>USDT (TRC20):</strong> TAbc123exampleusdt</p>
     </div>
-  </footer>
+    <p style="margin-top: 20px; font-size: 0.9rem; color: #ccc;">¡Gracias por tu apoyo!</p>
+  </section>
+
+  <footer class="famenews-footer">...footer content...</footer>
+
   <script>
-    const API_KEY = '7029e04c1d06f0215fd37aaa9a588654';
-    const BASE_TOP = 'https://gnews.io/api/v4/top-headlines';
-    const BASE_SEARCH = 'https://gnews.io/api/v4/search';
+    const API_KEY = '7ab12345tureclaveoriginalcorrecta';
+    const BASE_URL = 'https://gnews.io/api/v4/top-headlines';
     const loader = document.getElementById('loader');
     const newsContainer = document.getElementById('news-container');
     const categoryItems = document.querySelectorAll('.category-item');
+
     const validCategories = {
-      general: 'general', business: 'business', technology: 'technology', entertainment: 'entertainment', health: 'health', science: 'science'
+      'general': 'general',
+      'business': 'business',
+      'technology': 'technology',
+      'entertainment': 'entertainment',
+      'health': 'health',
+      'science': 'science',
+      'cryptocurrency': 'cryptocurrency'
     };
+
     document.addEventListener('DOMContentLoaded', () => loadNews('general'));
+
     categoryItems.forEach(item => item.addEventListener('click', e => {
       e.preventDefault();
       categoryItems.forEach(i => i.classList.remove('active'));
       e.target.classList.add('active');
       loadNews(e.target.dataset.category);
     }));
-    async function loadNews(category) {
-      loader.style.display = 'block'; newsContainer.innerHTML = '';
+
+    async function loadNews(category = 'general') {
+      loader.style.display = 'block';
+      newsContainer.innerHTML = '';
       try {
-        let url;
-        if (category === 'crypto') {
-          url = `${BASE_SEARCH}?q=criptomonedas&lang=es&max=10&apikey=${API_KEY}`;
-        } else {
-          url = `${BASE_TOP}?category=${validCategories[category]}&lang=es&max=10&apikey=${API_KEY}`;
-        }
-        const res = await fetch(url);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const { articles } = await res.json();
-        if (articles.length) renderNews(articles);
+        const url = `${BASE_URL}?category=${validCategories[category]}&lang=es&max=10&apikey=${API_KEY}`;
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const data = await response.json();
+        if (data.articles && data.articles.length) renderNews(data.articles);
         else showError('No se encontraron noticias.');
-      } catch (err) { console.error(err); showError('Error al cargar noticias.'); }
-      finally { loader.style.display = 'none'; }
+      } catch (err) {
+        console.error(err);
+        showError('Error al cargar noticias.');
+      } finally {
+        loader.style.display = 'none';
+      }
     }
-    function renderNews(arts) {
-      let html = '';
-      // Noticia destacada
-      const f = arts[0];
-      html += `<article class="featured-news"><img src="${f.image||'https://via.placeholder.com/1200x400?text=Noticia+Destacada'}" alt="${f.title}" class="featured-img" onerror="this.src='https://via.placeholder.com/1200x400?text=Imagen+No+Disponible'"><div class="featured-content"><span class="featured-tag">DESTACADA</span><h1 class="featured-title">${f.title}</h1><p class="featured-excerpt">${f.description||'Descripción no disponible.'}</p><p class="featured-meta">${formatDate(f.publishedAt)} | ${f.source.name}</p><a href="${f.url}" target="_blank" class="read-more">Leer más →</a></div></article>`;
-      // Secundarias
-      if (arts.length>1) { html += '<div class="secondary-news">'; for(let i=1;i<Math.min(4,arts.length);i++){const a=arts[i]; html+=`<article class="secondary-card"><img src="${a.image||'https://via.placeholder.com/400x180?text=Noticia'}" alt="${a.title}" class="secondary-img" onerror="this.src='https://via.placeholder.com/400x180?text=Imagen+No+Disponible'"><div class="secondary-content"><span class="secondary-tag">${a.source.name}</span><h2 class="secondary-title">${truncateText(a.title,80)}</h2><p class="secondary-meta">${formatDate(a.publishedAt)}</p><a href="${a.url}" target="_blank" class="read-more">Ver más →</a></div></article>`;} html+='</div>'; }
-      // Terciarias
-      if (arts.length>4) { html+='<div class="tertiary-news">'; for(let i=4;i<arts.length;i++){const a=arts[i]; html+=`<article class="tertiary-card"><img src="${a.image||'https://via.placeholder.com/300x100?text=Noticia'}" alt="${a.title}" class="tertiary-img" onerror="this.src='https://via.placeholder.com/300x100?text=Imagen+No+Disponible'"><div class="tertiary-content"><h3 class="tertiary-title">${truncateText(a.title,60)}</h3><p class="tertiary-meta">${formatDate(a.publishedAt)} | ${a.source.name}</p></div></article>`;} html+='</div>'; }
+
+    function renderNews(articles) {
+      const html = articles.map(article => `
+        <article style="margin-bottom: 30px; border-bottom: 1px solid #ccc; padding-bottom: 15px;">
+          <h3>${article.title}</h3>
+          <p>${truncateText(article.description || '', 200)}</p>
+          <a href="${article.url}" target="_blank" style="color: #ff0000;">Leer más</a>
+        </article>
+      `).join('');
       newsContainer.innerHTML = html;
     }
-    function showError(msg) { newsContainer.innerHTML = `<div style="text-align:center;padding:50px;"><h3 style="color:#ff0000;">⚠️ Error</h3><p>${msg}</p><button onclick="loadNews('general')" style="padding:10px 20px;background:#ff0000;color:#fff;border:none;border-radius:5px;cursor:pointer;">Recargar</button></div>`; }
-    function formatDate(s) { return new Date(s).toLocaleDateString('es-ES',{year:'numeric',month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}); }
-    function truncateText(t,m){return t.length>m?t.substring(0,m)+'...':t;}
+
+    function showError(msg) {
+      newsContainer.innerHTML = `<p style="color: red; text-align: center;">⚠️ ${msg}</p>`;
+    }
+
+    function truncateText(t, m) {
+      return t.length > m ? t.substring(0, m) + '...' : t;
+    }
   </script>
 </body>
 </html>
