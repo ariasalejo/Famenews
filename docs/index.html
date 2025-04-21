@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4580331939704676"
      crossorigin="anonymous"></script>
@@ -7,7 +7,7 @@
      crossorigin="anonymous"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Famenews | Noticias Virales</title>
+  <title>Famenews | Viral News</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica Neue', Arial, sans-serif; }
@@ -91,15 +91,65 @@
       100% { transform: rotate(360deg); }
     }
 
+    /* Donation Section Styles */
+    .donation-section {
+      background: linear-gradient(90deg, #0f0c29, #302b63, #24243e);
+      color: #fff;
+      padding: 40px 20px;
+      text-align: center;
+      border-top: 2px solid #00ffff;
+      margin-top: 30px; /* Added some space above the section */
+    }
+
+    .donation-section h2 {
+      font-size: 2.2rem; /* Slightly larger */
+      margin-bottom: 20px; /* More space */
+      color: #00ffff; /* Highlight heading */
+      text-transform: uppercase;
+    }
+
+    .donation-section p {
+      font-size: 1.1rem;
+      margin-bottom: 15px; /* Adjusted space */
+    }
+
+    .crypto-addresses {
+      font-family: monospace;
+      font-size: 1rem; /* Slightly larger */
+      line-height: 1.8; /* More readable */
+      background: rgba(255, 255, 255, 0.1); /* Subtle background */
+      padding: 15px;
+      border-radius: 8px;
+      display: inline-block; /* Center block */
+      margin-top: 10px;
+      word-break: break-all; /* Prevent overflow on small screens */
+    }
+
+     .crypto-addresses p strong {
+        color: #ff0000; /* Highlight coin name */
+     }
+
+
+    .thank-you {
+      margin-top: 25px; /* More space */
+      font-size: 1rem; /* Slightly larger */
+      color: #ccc;
+      font-style: italic;
+    }
+
     @media (max-width: 768px) {
       .categories-nav { gap: 15px; }
       .secondary-news { grid-template-columns: 1fr; }
       .tertiary-news { grid-template-columns: repeat(2, 1fr); }
       .featured-title { font-size: 24px; }
+      .donation-section h2 { font-size: 1.8rem; }
+      .crypto-addresses { font-size: 0.9rem; }
     }
 
     @media (max-width: 576px) {
       .tertiary-news { grid-template-columns: 1fr; }
+      .donation-section h2 { font-size: 1.6rem; }
+      .donation-section p { font-size: 1rem; }
     }
   </style>
 </head>
@@ -108,14 +158,11 @@
     <div class="container header-content">
       <div class="logo">Famenews</div>
       <nav class="categories-nav">
-        <a href="#" class="category-item active" data-category="general">Tendencias</a>
-        <a href="#" class="category-item" data-category="business">Finanzas</a>
-        <a href="#" class="category-item" data-category="technology">Tecnología</a>
-        <a href="#" class="category-item" data-category="entertainment">Entretenimiento</a>
-        <a href="#" class="category-item" data-category="health">Salud</a>
-        <a href="#" class="category-item" data-category="science">Ciencia</a>
-        <a href="#" class="category-item" data-category="cryptocurrency">Criptomonedas</a>
-      </nav>
+        <a href="#" class="category-item active" data-category="trending">Trending News</a> <a href="#" class="category-item" data-category="vehiculos">Vehículos</a> <a href="#" class="category-item" data-category="moda">Moda</a> <a href="#" class="category-item" data-category="ia">IA</a> <a href="#" class="category-item" data-category="cryptocurrency">Cryptocurrency</a> <a href="#" class="category-item" data-category="business">Business</a>
+        <a href="#" class="category-item" data-category="entertainment">Entertainment</a>
+        <a href="#" class="category-item" data-category="health">Health</a>
+        <a href="#" class="category-item" data-category="science">Science</a>
+        <a href="#" class="category-item" data-category="technology">Technology</a> </nav>
     </div>
   </header>
 
@@ -124,39 +171,53 @@
     <div id="news-container"></div>
   </main>
 
-  <!-- Sección de Donaciones -->
-  <section class="donaciones" style="background: linear-gradient(90deg, #0f0c29, #302b63, #24243e); color:#fff; padding: 40px 20px; text-align:center; border-top: 2px solid #00ffff;">
-    <h2 style="font-size: 2rem; margin-bottom: 15px;">¿Te gusta Famenews?</h2>
-    <p style="font-size: 1.1rem; margin-bottom: 10px;">Apóyanos para seguir compartiendo noticias relevantes y virales.</p>
-    <p style="font-size: 1rem; margin-bottom: 10px;">Puedes donar usando criptomonedas:</p>
-    <div style="font-family: monospace; font-size: 0.95rem; line-height: 1.5;">
+  <section class="donation-section">
+    <h2>Support Famenews</h2>
+    <p>Help us keep sharing relevant and viral news with you!</p>
+    <p>Your donation, no matter how small, makes a big difference.</p>
+    <p>You can donate using cryptocurrencies:</p>
+    <div class="crypto-addresses">
       <p><strong>BTC:</strong> bc1qej3examplebtcaddresshere</p>
       <p><strong>ETH:</strong> 0xAbC123exampleethaddress</p>
       <p><strong>USDT (TRC20):</strong> TAbc123exampleusdt</p>
     </div>
-    <p style="margin-top: 20px; font-size: 0.9rem; color: #ccc;">¡Gracias por tu apoyo!</p>
+    <p class="thank-you">Thank you sincerely for your support!</p>
   </section>
 
   <footer class="famenews-footer">...footer content...</footer>
 
   <script>
-    const API_KEY = '7ab12345tureclaveoriginalcorrecta';
-    const BASE_URL = 'https://gnews.io/api/v4/top-headlines';
+    // --- API Configuration ---
+    const API_KEY = '8A-SQMIvfRxAXQ_d8Y9AohCkUG2E5-7Vkf7IeQN_NhJ5w0EY'; // Your Currents API Key
+    const BASE_URL = 'https://api.currentsapi.services/v1/latest-news'; // Currents API endpoint
+    // --- End API Configuration ---
+
     const loader = document.getElementById('loader');
     const newsContainer = document.getElementById('news-container');
     const categoryItems = document.querySelectorAll('.category-item');
 
+    // Mapping from data-category attribute to the category value expected by the API
+    // Note: 'vehiculos', 'moda', and 'cryptocurrency' are NOT standard categories for
+    // Currents API's /latest-news endpoint. Clicking these will likely NOT return
+    // specific news for that topic using the current API call structure.
     const validCategories = {
-      'general': 'general',
+      'trending': 'general',     // Maps 'Trending News' to API's 'general' category
+      'vehiculos': 'vehiculos',  // Data attribute name, likely won't filter correctly in API
+      'moda': 'moda',          // Data attribute name, likely won't filter correctly in API
+      'ia': 'technology',      // Maps 'IA' to API's 'technology' category
+      'cryptocurrency': 'cryptocurrency', // Data attribute name, likely won't filter correctly in API
+      // Standard API categories that were already there:
       'business': 'business',
-      'technology': 'technology',
       'entertainment': 'entertainment',
       'health': 'health',
       'science': 'science',
-      'cryptocurrency': 'cryptocurrency'
+      'technology': 'technology' // Keeping technology as a separate option too
     };
 
-    document.addEventListener('DOMContentLoaded', () => loadNews('general'));
+    // Determine the default category to load on page load
+    const defaultCategory = 'trending'; // Load 'Trending News' by default
+
+    document.addEventListener('DOMContentLoaded', () => loadNews(defaultCategory));
 
     categoryItems.forEach(item => item.addEventListener('click', e => {
       e.preventDefault();
@@ -165,19 +226,59 @@
       loadNews(e.target.dataset.category);
     }));
 
-    async function loadNews(category = 'general') {
+    async function loadNews(category = defaultCategory) {
       loader.style.display = 'block';
       newsContainer.innerHTML = '';
+
+      // Get the actual category value to send to the API
+      const apiCategory = validCategories[category];
+
+      // --- Important Note ---
+      // Check if the requested category is one we know might not be supported
+      const unsupportedCategories = ['vehiculos', 'moda', 'cryptocurrency']; // Add others if needed
+      if (unsupportedCategories.includes(category)) {
+         console.warn(`Category '${category}' is likely NOT supported by the Currents API /latest-news 'category' filter.`);
+         // You could add a message to the user here if you want, e.g.:
+         // newsContainer.innerHTML = '<p style="color: orange; text-align: center;">Note: Specific results for this category may not be available via the current API.</p>';
+         // Proceeding with the fetch, but expect general or no results for these.
+      }
+      // --- End Important Note ---
+
       try {
-        const url = `${BASE_URL}?category=${validCategories[category]}&lang=es&max=10&apikey=${API_KEY}`;
+        // Construct the URL using the mapped API category
+        const url = `${BASE_URL}?category=${apiCategory}&language=en&limit=10&apiKey=${API_KEY}`;
+        console.log("Attempting to fetch:", url);
+
         const response = await fetch(url);
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error("HTTP error!", response.status, errorText);
+             // Improve error message based on common API status codes
+            if (response.status === 401 || response.status === 403) {
+                 throw new Error('Authentication failed. Invalid API Key.');
+            } else if (response.status === 429) {
+                 throw new Error('Rate limit exceeded.');
+            } else {
+                 throw new Error(`HTTP status ${response.status}.`);
+            }
+        }
+
         const data = await response.json();
-        if (data.articles && data.articles.length) renderNews(data.articles);
-        else showError('No se encontraron noticias.');
+        console.log("API Response:", data);
+
+        if (data.news && data.news.length > 0) {
+          renderNews(data.news);
+        } else {
+           if (data.status === "fail" && data.message) {
+               showError(`API Error: ${data.message}`);
+           } else {
+               showError('No news found for this category.');
+           }
+        }
       } catch (err) {
-        console.error(err);
-        showError('Error al cargar noticias.');
+        console.error("Error fetching news:", err);
+        showError(`Error loading news. Details: ${err.message}.`); // Display error message to user
       } finally {
         loader.style.display = 'none';
       }
@@ -188,17 +289,18 @@
         <article style="margin-bottom: 30px; border-bottom: 1px solid #ccc; padding-bottom: 15px;">
           <h3>${article.title}</h3>
           <p>${truncateText(article.description || '', 200)}</p>
-          <a href="${article.url}" target="_blank" style="color: #ff0000;">Leer más</a>
+          <a href="${article.url}" target="_blank" style="color: #ff0000;">Read more</a>
         </article>
       `).join('');
       newsContainer.innerHTML = html;
     }
 
     function showError(msg) {
-      newsContainer.innerHTML = `<p style="color: red; text-align: center;">⚠️ ${msg}</p>`;
+      newsContainer.innerHTML = `<p style="color: red; text-align: center; padding: 20px;">⚠️ ${msg}</p>`;
     }
 
     function truncateText(t, m) {
+      if (!t) return '';
       return t.length > m ? t.substring(0, m) + '...' : t;
     }
   </script>
