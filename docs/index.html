@@ -1,373 +1,609 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Famnews - Noticias Dinámicas</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <style>
-        /* Estilos Base */
-        :root {
-            --primary-color: #2c3e50;
-            --secondary-color: #3498db;
-            --accent-color: #e74c3c;
-            --text-color: #333;
-            --light-bg: #f8f9fa;
-            --border-radius: 8px;
-            --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4580331939704676"
+     crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4580331939704676"
+     crossorigin="anonymous"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Famenews | Viral News</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Helvetica Neue', Arial, sans-serif; }
+    body { background: #f8f9fa; color: #333; line-height: 1.6; display: flex; flex-direction: column; min-height: 100vh; } /* Added flex for sticky footer */
+    .container { width: 90%; max-width: 1200px; margin: 0 auto; padding: 20px 0; }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+    header {
+      background: #000;
+      color: white;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
 
-        body {
-            font-family: 'Roboto', sans-serif;
-            line-height: 1.6;
-            color: var(--text-color);
-            background-color: var(--light-bg);
-        }
+    .header-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 15px 0;
+    }
 
-        /* Header */
-        header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 1.5rem;
-            box-shadow: var(--box-shadow);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+    .logo {
+      font-size: 32px;
+      font-weight: 900;
+      text-transform: uppercase;
+      background: linear-gradient(90deg, #ff0000 50%, #fff 50%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-        header h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            text-align: center;
-        }
+    .categories-nav {
+      display: flex;
+      gap: 20px;
+      margin-top: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      overflow-x: auto;
+      padding-bottom: 10px;
+    }
 
-        /* Contenedor Principal */
-        .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
+    .category-item {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 14px;
+      position: relative;
+      padding: 5px 0;
+      transition: color 0.3s;
+      white-space: nowrap;
+    }
 
-        /* Menú de Categorías */
-        .category-menu {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            justify-content: center;
-            margin: 2rem 0;
-        }
+    .category-item::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #ff0000;
+      transition: width 0.3s;
+    }
 
-        .category-item {
-            padding: 0.8rem 1.5rem;
-            border-radius: var(--border-radius);
-            background-color: white;
-            color: var(--primary-color);
-            text-decoration: none;
-            transition: all 0.3s ease;
-            border: 2px solid var(--primary-color);
-            font-weight: 500;
-        }
+    .category-item:hover::after, .category-item.active::after { width: 100%; }
+    .category-item:hover, .category-item.active { color: #ff0000; }
 
-        .category-item:hover,
-        .category-item.active {
-            background-color: var(--primary-color);
-            color: white;
-            transform: translateY(-2px);
-        }
+    .loader {
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid #ff0000;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 30px auto;
+      display: none;
+    }
 
-        /* Contenedor de Noticias */
-        #news-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            padding: 1rem;
-        }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
 
-        /* Tarjetas de Noticias */
-        .news-card {
-            background: white;
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            transition: transform 0.3s ease;
-            position: relative;
-            box-shadow: var(--box-shadow);
-        }
+    /* --- News Card Layout Styles --- */
+    #news-container {
+        display: grid;
+        gap: 20px; /* Space between sections */
+        grid-template-areas:
+            "large"
+            "medium"
+            "small";
+        margin-bottom: 30px; /* Space before the footer */
+        flex-grow: 1; /* Allow main content to grow */
+    }
 
-        .news-card:hover {
-            transform: translateY(-5px);
-        }
+    .large-news-section { grid-area: large; }
+    .medium-news-section { grid-area: medium; }
+    .small-news-section { grid-area: small; }
 
-        .news-card img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-bottom: 3px solid var(--secondary-color);
-        }
 
-        .card-content {
-            padding: 1.5rem;
-        }
+    .news-card {
+        background-color: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        text-decoration: none;
+        color: inherit;
+        transition: transform 0.2s ease-in-out;
+    }
 
-        .news-card h3 {
-            font-size: 1.2rem;
-            margin-bottom: 0.8rem;
-            color: var(--primary-color);
-        }
+     .news-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+     }
 
-        .news-card p {
-            font-size: 0.95rem;
-            color: #666;
-            margin-bottom: 1.2rem;
-        }
+    .news-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        display: block;
+    }
 
-        .read-more {
-            display: inline-block;
-            color: var(--secondary-color);
-            font-weight: 500;
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
+    .card-content {
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
 
-        .read-more:hover {
-            color: var(--accent-color);
-        }
+    .card-content h3 {
+        margin-top: 0;
+        margin-bottom: 10px;
+        font-size: 1.5rem;
+        line-height: 1.3;
+        color: #333;
+    }
 
-        /* Diseño Responsive */
-        @media (min-width: 768px) {
-            .news-card.large {
-                grid-column: span 2;
-            }
+    .card-content p {
+        margin-bottom: 10px;
+        font-size: 1rem;
+        color: #666;
+        flex-grow: 1;
+    }
 
-            .news-card.medium {
-                grid-column: span 1;
-            }
-        }
+    .read-more {
+        display: inline-block;
+        margin-top: auto;
+        color: #ff0000;
+        font-weight: bold;
+        text-decoration: none;
+        font-size: 0.9rem;
+    }
 
-        /* Loader */
-        #loader {
-            display: none;
-            text-align: center;
-            padding: 2rem;
-            font-size: 1.2rem;
-            color: var(--secondary-color);
-        }
+    /* Size Variations */
+    .news-card.large img {
+        height: 300px;
+    }
 
-        /* Footer */
-        footer {
-            background-color: var(--primary-color);
-            color: white;
-            text-align: center;
-            padding: 1.5rem;
-            margin-top: 3rem;
-        }
+    .news-card.large .card-content h3 {
+        font-size: 2rem;
+    }
 
-        /* Mejoras de Imágenes */
-        .news-card .image-placeholder {
-            height: 200px;
-            background: linear-gradient(45deg, #f1f1f1, #e0e0e0);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #666;
-            font-size: 0.9rem;
-        }
-    </style>
+     .news-card.large .card-content p {
+        font-size: 1.1rem;
+    }
+
+    .news-card.medium img {
+         height: 180px;
+    }
+
+    .news-card.medium .card-content h3 {
+        font-size: 1.3rem;
+    }
+
+    .news-card.small {
+         flex-direction: row;
+         align-items: center;
+    }
+
+     .news-card.small img {
+         width: 120px;
+         height: 100px;
+         flex-shrink: 0;
+         margin-right: 15px;
+     }
+
+     .news-card.small .card-content {
+         padding: 10px 15px;
+     }
+
+    .news-card.small .card-content h3 {
+        font-size: 1rem;
+        margin-bottom: 5px;
+    }
+
+    .news-card.small .card-content p {
+         display: none;
+     }
+
+     .news-card.small .read-more {
+         font-size: 0.8rem;
+     }
+
+
+    /* Grid Layouts for Medium and Small Sections */
+    .medium-news-section {
+        display: grid;
+        gap: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .small-news-section {
+        display: grid;
+        gap: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+
+    /* --- End News Card Layout Styles --- */
+
+
+    /* --- Professional Footer Styles --- */
+    .site-footer {
+        background: #000;
+        color: #fff;
+        padding: 40px 20px 20px; /* Adjust padding */
+        margin-top: auto; /* Push footer to bottom */
+    }
+
+    .footer-content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive columns */
+        gap: 30px; /* Space between columns */
+        max-width: 1200px;
+        margin: 0 auto;
+        padding-bottom: 20px; /* Space above copyright */
+        border-bottom: 1px solid #333; /* Separator line */
+    }
+
+    .footer-section h3 {
+        color: #ff0000; /* Highlight section titles */
+        margin-bottom: 15px;
+        font-size: 1.2rem;
+        text-transform: uppercase;
+    }
+
+     .footer-section p, .footer-section a {
+        color: #ccc; /* Lighter text for content */
+        font-size: 0.95rem;
+        line-height: 1.8;
+        text-decoration: none;
+     }
+
+    .footer-section a:hover {
+        color: #fff; /* Hover effect */
+        text-decoration: underline;
+    }
+
+    .footer-logo {
+        font-size: 28px; /* Smaller logo in footer */
+        font-weight: 900;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+        background: linear-gradient(90deg, #ff0000 50%, #fff 50%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: inline-block; /* Ensure gradient works */
+    }
+
+    .footer-section ul {
+        list-style: none;
+    }
+
+     .footer-section ul li {
+        margin-bottom: 8px;
+     }
+
+    .footer-crypto-addresses {
+        font-family: monospace;
+        font-size: 0.9rem;
+        line-height: 1.6;
+        background: rgba(255, 255, 255, 0.05);
+        padding: 10px;
+        border-radius: 4px;
+        word-break: break-all;
+        margin-top: 10px;
+    }
+
+     .footer-crypto-addresses p strong {
+        color: #ff0000;
+     }
+
+
+    .footer-bottom {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 0.85rem;
+        color: #666;
+    }
+    /* --- End Professional Footer Styles --- */
+
+
+    /* Responsive Adjustments */
+    @media (max-width: 992px) {
+        .news-card.large .card-content h3 { font-size: 1.8rem; }
+        .news-card.large img { height: 250px; }
+    }
+
+    @media (max-width: 768px) {
+      .categories-nav { gap: 15px; }
+
+      /* Stack cards vertically on smaller screens */
+      #news-container {
+           grid-template-areas:
+            "large"
+            "medium"
+            "small";
+           gap: 15px;
+      }
+
+      .medium-news-section, .small-news-section {
+          grid-template-columns: 1fr;
+          gap: 15px;
+      }
+
+      .news-card.large img { height: 200px; }
+      .news-card.large .card-content h3 { font-size: 1.6rem; }
+      .news-card.medium img { height: 150px; }
+      .news-card.medium .card-content h3 { font-size: 1.2rem; }
+      .news-card.small img { width: 100px; height: 80px; }
+      .news-card.small .card-content h3 { font-size: 0.9rem; }
+      .news-card.small .card-content { padding: 8px 10px; }
+
+      /* Footer stacking */
+      .footer-content {
+           grid-template-columns: 1fr; /* Stack columns */
+           gap: 20px;
+      }
+
+    }
+
+    @media (max-width: 576px) {
+       .news-card.large .card-content h3 { font-size: 1.4rem; }
+       .news-card.medium .card-content h3 { font-size: 1.1rem; }
+       .news-card img { height: 180px; }
+       .news-card.large img { height: 180px; }
+        .news-card.medium img { height: 140px; }
+        .news-card.small img { width: 90px; height: 70px; }
+         .footer-section h3 { font-size: 1.1rem; }
+         .footer-section p, .footer-section a { font-size: 0.9rem; }
+
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Famnews - Últimas Noticias</h1>
-    </header>
-    
-    <div class="container">
-        <nav class="category-menu">
-            <a href="#" data-category="trending" class="category-item active">Tendencias</a>
-            <a href="#" data-category="business" class="category-item">Negocios</a>
-            <a href="#" data-category="technology" class="category-item">Tecnología</a>
-            <a href="#" data-category="health" class="category-item">Salud</a>
-            <a href="#" data-category="entertainment" class="category-item">Entretenimiento</a>
-        </nav>
-        
-        <div id="loader">Cargando noticias...</div>
-        <div id="news-container"></div>
+  <header>
+    <div class="container header-content">
+      <div class="logo">Famenews</div>
+      <nav class="categories-nav">
+        <a href="#" class="category-item active" data-category="trending">Trending News</a>
+        <a href="#" class="category-item" data-category="moda">Moda</a>
+        <a href="#" class="category-item" data-category="ia">IA</a>
+        <a href="#" class="category-item" data-category="cryptocurrency">Cryptocurrency</a>
+         <a href="#" class="category-item" data-category="business">Business</a>
+        <a href="#" class="category-item" data-category="entertainment">Entertainment</a>
+        <a href="#" class="category-item" data-category="health">Health</a>
+        <a href="#" class="category-item" data-category="science">Science</a>
+        <a href="#" class="category-item" data-category="technology">Technology</a>
+      </nav>
     </div>
+  </header>
 
-    <footer>
-        <p>&copy; <span id="current-year"></span> Famnews. Todos los derechos reservados.</p>
-    </footer>
+  <main class="container">
+    <div class="loader" id="loader"></div>
+    <div id="news-container"></div>
+  </main>
 
-    <script>
-// --- API Configuration ---
-const BASE_URL = 'http://127.0.0.1:5000/api/rss_news'; // URL de tu endpoint local de Flask
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-section about-us">
+        <div class="footer-logo">Famenews</div>
+        <p>Your source for the latest viral news and trending stories from around the world.</p>
+      </div>
 
-// --- DOM Elements ---
-const loader = document.getElementById('loader');
-const newsContainer = document.getElementById('news-container');
-const categoryItems = document.querySelectorAll('.category-item');
-const categoryHeading = document.getElementById('category-heading');
 
-// Mapear categorías a URLs de feeds RSS
-const rssFeedUrls = {
-  'trending': 'https://news.ycombinator.com/rss', // Feed Hacker News como ejemplo
-  'business': 'http://feeds.bbci.co.uk/news/business/rss.xml',
-  'technology': 'http://feeds.bbci.co.uk/news/technology/rss.xml',
-  'health': 'http://feeds.bbci.co.uk/news/health/rss.xml',
-  'entertainment': 'http://feeds.bbci.co.uk/news/entertainment_and_arts/rss.xml',
-};
+       <div class="footer-section advertise-with-us">
+           <h3>Advertise With Us</h3>
+           <p>Reach a broad audience interested in current events, technology, entertainment, and more.</p>
+           <p>To learn more about advertising opportunities, please contact us:</p>
+           <p><a href="mailto:advertise@yourwebsite.com">advertise@yourwebsite.com</a></p> </div>
 
-const defaultCategory = 'trending';
+       </div>
+    <div class="footer-bottom">
+      &copy; <span id="current-year"></span> Famenews. All rights reserved.
+    </div>
+  </footer>
 
-// --- Event Listeners ---
-document.addEventListener('DOMContentLoaded', () => {
-  loadNews(defaultCategory);
-  document.getElementById('current-year').textContent = new Date().getFullYear();
-});
+  <script>
+    // --- API Configuration ---
+    const API_KEY = 'pub_809259816761d9c3b12daa6cae85d51e96327'; // Your newsdata.io API Key
+    const BASE_URL = 'https://newsdata.io/api/1/news'; // newsdata.io API endpoint
+    // --- End API Configuration ---
 
-categoryItems.forEach(item => item.addEventListener('click', e => {
-  e.preventDefault();
-  categoryItems.forEach(i => i.classList.remove('active'));
-  e.target.classList.add('active');
+    const loader = document.getElementById('loader');
+    const newsContainer = document.getElementById('news-container');
+    const categoryItems = document.querySelectorAll('.category-item');
 
-  const clickedCategoryText = e.target.textContent;
-  categoryHeading.textContent = clickedCategoryText;
+    // newsdata.io standard categories (VERIFY with https://newsdata.io/documentation)
+    const standardNewsdataCategories = [
+        'business', 'entertainment', 'health', 'science', 'technology',
+        'sports', 'politics', 'world', 'finance', 'food', 'travel',
+        'economy', 'lifehack', 'auto', 'fashion' // Added common ones, verify docs!
+    ];
 
-  loadNews(e.target.dataset.category);
-}));
+    const defaultCategory = 'trending';
 
-// --- Load News ---
-async function loadNews(category = defaultCategory) {
-  loader.style.display = 'block';
-  newsContainer.innerHTML = '';
-
-  const rssUrlToFetch = rssFeedUrls[category];
-
-  if (!rssUrlToFetch) {
-    showError(`No se encontró URL de feed RSS para la categoría: ${category}`);
-    loader.style.display = 'none';
-    return;
-  }
-
-  const url = `${BASE_URL}?url=${encodeURIComponent(rssUrlToFetch)}`;
-
-  try {
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error("Error HTTP desde el backend", response.status, errorData);
-      throw new Error(`Error en el Backend ${response.status}: ${errorData.message || 'Error desconocido'}`);
-    }
-
-    const data = await response.json();
-
-    if (data.status === "ok" && data.articles && data.articles.length > 0) {
-      renderNews(data.articles);
-    } else if (data.status === "error") {
-      showError(`Backend reportó un error: ${data.message}`);
-    } else {
-      showError('No se devolvieron artículos del backend para este feed.');
-    }
-  } catch (err) {
-    console.error("Error al obtener noticias desde el backend:", err);
-    showError(`Error cargando noticias desde el backend. Detalles: ${err.message}`);
-  } finally {
-    loader.style.display = 'none';
-  }
-}
-
-// --- Render News ---
-function renderNews(articles) {
-  let newsHtml = '';
-  const largeArticle = articles[0];
-  const mediumArticles = articles.slice(1, 4);
-  const smallArticles = articles.slice(4);
-
-  function createArticleHtml(article, sizeClass) {
-    const imageUrl = article.image_url && article.image_url.startsWith('http') ? article.image_url : 'placeholder.jpg';
-    const altText = article.title ? `${article.title} - Imagen de noticia` : 'Imagen de noticia';
-    const authorName = article.author || 'Autor desconocido';
-
-    return `
-      <article class="news-card ${sizeClass}">
-        <img src="${imageUrl}" alt="${altText}">
-        <div class="card-content">
-          <h3>${article.title}</h3>
-          ${sizeClass !== 'small' ? `<p>${truncateText(article.description || '', sizeClass === 'large' ? 250 : 120)}</p>` : ''}
-          <span class="read-more">Leer más</span>
-          <a href="${article.link}" target="_blank" class="full-card-link" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></a>
-        </div>
-      </article>
-    `;
-  }
-
-  if (largeArticle) {
-    newsHtml += `<div class="large-news-section">${createArticleHtml(largeArticle, 'large')}</div>`;
-  }
-
-  if (mediumArticles.length > 0) {
-    newsHtml += '<div class="medium-news-section">';
-    mediumArticles.forEach(article => {
-      newsHtml += createArticleHtml(article, 'medium');
+    document.addEventListener('DOMContentLoaded', () => {
+        loadNews(defaultCategory);
+        // Set current year in footer
+        document.getElementById('current-year').textContent = new Date().getFullYear();
     });
-    newsHtml += '</div>';
-  }
 
-  if (smallArticles.length > 0) {
-    newsHtml += '<div class="small-news-section">';
-    smallArticles.forEach(article => {
-      newsHtml += createArticleHtml(article, 'small');
-    });
-    newsHtml += '</div>';
-  }
+    categoryItems.forEach(item => item.addEventListener('click', e => {
+      e.preventDefault();
+      categoryItems.forEach(i => i.classList.remove('active'));
+      e.target.classList.add('active');
+      loadNews(e.target.dataset.category);
+    }));
 
-  newsContainer.innerHTML = newsHtml || '<p>No hay noticias para mostrar.</p>';
-}
+    async function loadNews(category = defaultCategory) {
+      loader.style.display = 'block';
+      newsContainer.innerHTML = '';
 
-// --- Error Handling ---
-function showError(msg) {
-  newsContainer.innerHTML = `<p style="color: red; text-align: center;">⚠️ ${msg}</p>`;
-}
+      let url;
+      let params = new URLSearchParams();
+      params.append('apikey', API_KEY); // newsdata.io uses 'apikey' parameter name
+      params.append('language', 'en'); // Assuming English is desired
 
-function truncateText(text, maxLength) {
-  if (!text) return '';
-  if (text.length <= maxLength) return text;
-  const lastSpace = text.substring(0, maxLength).lastIndexOf(' ');
-  return lastSpace === -1 ? text.substring(0, maxLength) + '...' : text.substring(0, lastSpace) + '...';
-}       
+      // Determine how to fetch based on the category button clicked
+      if (category === 'trending') {
+          // For trending/general newsdata.io, omit the 'category' parameter
+          console.log("Fetching trending/general news by omitting category parameter (newsdata.io).");
+          // No category parameter needed for this case, API defaults to general/top
+      } else if (standardNewsdataCategories.includes(category.toLowerCase())) { // Check against lowercase category
+          // If the lowercase category button name matches a standard newsdata.io category
+          params.append('category', category.toLowerCase()); // Use lowercase for the API parameter
+          console.log(`Workspaceing standard category: ${category.toLowerCase()}`);
+      } else {
+           // For categories not in the standard list (vehiculos, moda, IA, Cryptocurrency, etc.)
+           // Use keyword search 'q'
+           params.append('q', category); // Use the original category button name as the keyword
+           console.warn(`Category '${category}' not a standard newsdata.io category. Using keyword search 'q=${category}'.`);
+      }
 
- // (Mantener el mismo JavaScript que proporcionaste, solo actualizar la función renderNews)
-        
-        function renderNews(articles) {
-            let newsHtml = '';
-            
-            articles.forEach((article, index) => {
-                const sizeClass = index === 0 ? 'large' : index < 4 ? 'medium' : 'small';
-                const imageUrl = article.image_url && article.image_url.startsWith('http') ? 
-                    article.image_url : 
-                    `https://picsum.photos/600/400?random=${index}`;
+       // newsdata.io limit/size parameter name is 'size'. Free tier max size is 10.
+       params.append('size', 10); // Request 10 articles (max for free tier)
 
-                newsHtml += `
-                    <article class="news-card ${sizeClass}">
-                        ${article.image_url ? 
-                            `<img src="${imageUrl}" alt="${article.title}">` : 
-                            `<div class="image-placeholder">Imagen no disponible</div>`}
-                        <div class="card-content">
-                            <h3>${article.title}</h3>
-                            <p>${truncateText(article.description || '', 150)}</p>
-                            <span class="read-more">Leer más</span>
-                            <a href="${article.link}" target="_blank" class="full-card-link"></a>
-                        </div>
-                    </article>
-                `;
-            });
 
-            newsContainer.innerHTML = newsHtml || '<p>No hay noticias para mostrar.</p>';
+      url = `${BASE_URL}?${params.toString()}`;
+
+      console.log("Attempting to fetch:", url);
+
+      try {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error("HTTP error!", response.status, errorText);
+            // newsdata.io specific error codes
+             if (response.status === 401 || response.status === 403) {
+                 throw new Error('Authentication failed. Invalid API Key. Please check the key.');
+            } else if (response.status === 429) {
+                 throw new Error('Rate limit exceeded.');
+            } else if (response.status >= 400 && response.status < 500) { // Catch 4xx client errors
+                 const errorJson = JSON.parse(errorText);
+                 // Attempt to get specific message from newsdata.io error structure
+                 const apiMessage = errorJson.results?.message || errorJson.message || 'Unknown API error';
+                 const apiCode = errorJson.results?.code || response.status;
+                 throw new Error(`Client Error: ${apiMessage}. Code: ${apiCode}. Check request parameters or category names.`);
+            }
+            else { // Catch other HTTP errors
+                 throw new Error(`HTTP status ${response.status}. Response: ${errorText}`);
+            }
         }
-    </script>
+
+        const data = await response.json();
+        console.log("API Response:", data);
+
+        // newsdata.io returns status and results array
+        if (data.status === "success" && data.results && data.results.length > 0) {
+          renderNews(data.results); // Pass the 'results' array
+        } else if (data.status === "success" && data.results && data.results.length === 0) {
+            showError('No news found for this request or category.');
+        }
+         else if (data.status === "error" && data.message) {
+               showError(`API Error: ${data.message}. Double check API key, endpoint, and parameters.`);
+           } else {
+               showError('Unknown API response structure or failure.');
+           }
+
+      } catch (err) {
+        console.error("Error fetching news:", err);
+        showError(`Error loading news. Details: ${err.message}. Ensure the API Key, BASE_URL, and parameters match the newsdata.io documentation.`);
+      } finally {
+        loader.style.display = 'none';
+      }
+    }
+
+    // This function is already adapted for newsdata.io response properties ('link', 'image_url', 'description')
+    function renderNews(articles) {
+      let newsHtml = '';
+       // Ensure we have articles before trying to access them
+      if (articles.length === 0) {
+        newsContainer.innerHTML = '<p>No articles to display after filtering.</p>';
+        return;
+      }
+
+      // Adapt property names for newsdata.io response
+      // Note: You might get fewer than 10 articles, so slice carefully.
+      const largeArticle = articles[0];
+      const mediumArticles = articles.slice(1, 4); // Get up to 3 medium articles
+      const smallArticles = articles.slice(4, 10); // Get up to 6 small articles if available
+
+
+      // Render Large Article (adapted for newsdata.io properties)
+      if (largeArticle) {
+        newsHtml += `
+          <div class="large-news-section">
+             <a href="${largeArticle.link}" target="_blank" class="news-card large">
+                <img src="${largeArticle.image_url || 'placeholder.jpg'}" alt="${largeArticle.title || 'News Image'}">
+                <div class="card-content">
+                   <h3>${largeArticle.title}</h3>
+                   <p>${truncateText(largeArticle.description || '', 250)}</p>
+                   <span class="read-more">Read more</span>
+                </div>
+             </a>
+          </div>
+        `;
+      }
+
+      // Render Medium Articles (adapted for newsdata.io properties)
+      if (mediumArticles.length > 0) {
+         newsHtml += '<div class="medium-news-section">';
+         mediumArticles.forEach(article => {
+            newsHtml += `
+              <a href="${article.link}" target="_blank" class="news-card medium">
+                 <img src="${article.image_url || 'placeholder.jpg'}" alt="${article.title || 'News Image'}">
+                 <div class="card-content">
+                    <h3>${article.title}</h3>
+                    <p>${truncateText(article.description || '', 120)}</p>
+                    <span class="read-more">Read more</span>
+                 </div>
+              </a>
+            `;
+         });
+         newsHtml += '</div>';
+      }
+
+      // Render Small Articles (adapted for newsdata.io properties)
+      if (smallArticles.length > 0) {
+         newsHtml += '<div class="small-news-section">';
+         smallArticles.forEach(article => {
+            newsHtml += `
+              <a href="${article.link}" target="_blank" class="news-card small">
+                 <img src="${article.image_url || 'placeholder-small.jpg'}" alt="${article.title || 'News Image'}">
+                 <div class="card-content">
+                    <h3>${article.title}</h3>
+                    <span class="read-more">Read more</span>
+                 </div>
+              </a>
+            `;
+         });
+         newsHtml += '</div>';
+      }
+
+       // If no articles were rendered into sections
+       if (!newsHtml) {
+           newsContainer.innerHTML = '<p>No news articles to display.</p>';
+       } else {
+           newsContainer.innerHTML = newsHtml;
+       }
+    }
+
+
+    function showError(msg) {
+      newsContainer.innerHTML = `<p style="color: red; text-align: center; padding: 20px;">⚠️ ${msg}</p>`;
+    }
+
+    function truncateText(t, m) {
+      if (!t) return '';
+      if (t.length <= m) return t;
+      const lastSpace = t.substring(0, m).lastIndexOf(' ');
+      if (lastSpace === -1) return t.substring(0, m) + '...';
+      return t.substring(0, lastSpace) + '...';
+    }
+  </script>
 </body>
 </html>
